@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pipoca Play - filmes, series e canais em um so lugar, com atendimento rapido pelo WhatsApp.">
+  <title>Pipoca Play</title>
+  <style>
+    :root {
+      --bg: #090909;
+      --surface: #151515;
+      --surface-2: #1e1e1e;
+      --text: #ffffff;
+      --muted: #bdbdbd;
+      --line: rgba(255, 255, 255, .10);
+      --brand: #ff3c00;
+      --brand-2: #ff8a00;
+      --green: #25d366;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .45);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(115deg, rgba(255, 60, 0, .18), transparent 30%),
+        linear-gradient(245deg, rgba(0, 194, 255, .12), transparent 35%),
+        linear-gradient(180deg, #111111 0%, #090909 42%, #050505 100%),
+        #090909;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .16;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .10) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 18px 8%;
+      background: rgba(9, 9, 9, .88);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 900;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .logo strong {
+      color: var(--brand);
+      text-shadow: 0 0 22px rgba(255, 60, 0, .55);
+    }
+
+    .logo span {
+      color: var(--text);
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #efefef;
+      font-size: 15px;
+      transition: color .25s ease;
+    }
+
+    .menu a:hover {
+      color: var(--brand-2);
+    }
+
+    .hero {
+      min-height: calc(100vh - 78px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+      gap: clamp(28px, 5vw, 72px);
+      align-items: center;
+      padding: 58px 8% 46px;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, .94) 0%, rgba(0, 0, 0, .72) 52%, rgba(0, 0, 0, .50) 100%),
+        url("imagens/capa.jpg"),
+        linear-gradient(125deg, rgba(255, 60, 0, .26), transparent 38%),
+        linear-gradient(245deg, rgba(0, 194, 255, .18), transparent 42%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .06) 0 1px, transparent 1px 82px),
+        #080808;
+      background-size: cover, cover, cover, cover, auto, auto;
+      background-position: center, center, center, center, center, center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -30% 14% auto auto;
+      width: 34%;
+      height: 150%;
+      background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, .16) 48%, transparent 100%);
+      filter: blur(12px);
+      transform: rotate(18deg);
+      animation: glowShift 7s ease-in-out infinite alternate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, .055) 0 1px,
+        transparent 1px 84px
+      );
+      opacity: .25;
+    }
+
+    .hero-content {
+      max-width: 760px;
+      position: relative;
+      z-index: 1;
+      animation: riseIn .8s ease both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .08);
+      color: #f5f5f5;
+      font-size: 14px;
+      box-shadow: 0 0 28px rgba(255, 60, 0, .20);
+      animation: pulseBadge 2.4s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      max-width: 720px;
+      font-size: clamp(38px, 7vw, 72px);
+      line-height: 1;
+      letter-spacing: 0;
+      margin-bottom: 22px;
+      text-shadow: 0 10px 36px rgba(0, 0, 0, .85);
+    }
+
+    .hero p {
+      max-width: 620px;
+      font-size: clamp(17px, 2.2vw, 22px);
+      color: #dddddd;
+      margin-bottom: 32px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 50px;
+      padding: 14px 24px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: 0 14px 32px rgba(255, 60, 0, .25);
+      transition: transform .2s ease, filter .2s ease;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: -40%;
+      bottom: -40%;
+      left: -75%;
+      width: 55%;
+      transform: rotate(22deg);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
+      animation: buttonShine 3.2s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, .10);
+      border: 1px solid rgba(255, 255, 255, .18);
+      box-shadow: none;
+    }
+
+    .hero-showcase {
+      position: relative;
+      z-index: 1;
+      min-height: 430px;
+      animation: floatIn .9s ease .15s both;
+    }
+
+    .poster {
+      position: absolute;
+      width: min(48%, 250px);
+      min-height: 335px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, .62);
+      overflow: hidden;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .05) 0%, rgba(0, 0, 0, .82) 100%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .10) 0 2px, transparent 2px 24px);
+      opacity: .78;
+    }
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 15px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .16), transparent 24%),
+        repeating-linear-gradient(0deg, transparent 0 17px, rgba(255, 255, 255, .10) 17px 18px);
+      opacity: .34;
+    }
+
+    .poster strong,
+    .poster span {
+      position: relative;
+      z-index: 2;
+    }
+
+    .poster strong {
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .poster span {
+      color: #eeeeee;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .poster.one {
+      left: 4%;
+      top: 38px;
+      transform: rotate(-7deg);
+      background:
+        url("imagens/poster-filmes.jpg"),
+        linear-gradient(135deg, rgba(255, 60, 0, .94), rgba(28, 12, 10, .98) 54%, rgba(255, 194, 71, .58)),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, .18) 0 2px, transparent 2px 18px);
+      background-size: cover, cover, auto;
+      background-position: center, center, center;
+      animation: posterFloat 5s ease-in-out infinite;
+    }
+
+    .poster.two {
+      right: 5%;
+      top: 0;
+      transform: rotate(5deg);
+      background:
+        url("imagens/poster-series.jpg"),
+        linear-gradient(135deg, rgba(0, 194, 255, .82), rgba(11, 18, 36, .98) 52%, rgba(255, 60, 171, .52)),
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, .16) 0 2px, transparent 2px 20px);
+      background-size: cover, cover, auto;
+      background-position: center, center, center;
+      animation: posterFloat 5.8s ease-in-out .3s infinite;
+    }
+
+    .poster.three {
+      left: 26%;
+      bottom: 0;
+      transform: rotate(2deg);
+      background:
+        url("imagens/poster-esportes.jpg"),
+        linear-gradient(135deg, rgba(70, 255, 138, .70), rgba(11, 19, 14, .98) 48%, rgba(255, 138, 0, .60)),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .14) 0 2px, transparent 2px 18px);
+      background-size: cover, cover, auto;
+      background-position: center, center, center;
+      animation: posterFloat 6.2s ease-in-out .6s infinite;
+    }
+
+    .live-chip {
+      position: absolute;
+      right: 0;
+      bottom: 42px;
+      z-index: 2;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: rgba(10, 10, 10, .82);
+      border: 1px solid rgba(255, 255, 255, .18);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, .42);
+      backdrop-filter: blur(12px);
+      animation: chipPop 1s ease .8s both;
+    }
+
+    .live-chip b {
+      color: #46ff8a;
+    }
+
+    .ticker {
+      padding: 16px 0;
+      border-top: 1px solid rgba(255, 255, 255, .09);
+      border-bottom: 1px solid rgba(255, 255, 255, .09);
+      background: linear-gradient(90deg, rgba(255, 60, 0, .18), rgba(255, 255, 255, .06), rgba(255, 138, 0, .18));
+      overflow: hidden;
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      gap: 18px;
+      animation: marquee 22s linear infinite;
+    }
+
+    .ticker span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .10);
+      border: 1px solid rgba(255, 255, 255, .14);
+      color: #f4f4f4;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    section {
+      padding: 78px 8%;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 34px;
+    }
+
+    .section-head p {
+      max-width: 520px;
+      color: var(--muted);
+    }
+
+    .title {
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.1;
+      text-shadow: 0 0 30px rgba(255, 60, 0, .20);
+    }
+
+    .promo {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 28px;
+      align-items: center;
+      padding: clamp(28px, 5vw, 54px);
+      border-radius: 8px;
+      background:
+        linear-gradient(115deg, rgba(255, 255, 255, .22), transparent 28%),
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, .12) 0 1px, transparent 1px 18px),
+        linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+      animation: riseIn .7s ease both;
+    }
+
+    .promo::after {
+      content: "OFERTA";
+      position: absolute;
+      right: -42px;
+      top: 26px;
+      width: 180px;
+      padding: 8px 0;
+      text-align: center;
+      background: #101010;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      transform: rotate(35deg);
+    }
+
+    .promo h3 {
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .promo p {
+      color: rgba(255, 255, 255, .88);
+      font-size: 18px;
+    }
+
+    .price {
+      justify-self: end;
+      text-align: right;
+    }
+
+    .price strong {
+      display: block;
+      font-size: clamp(52px, 8vw, 82px);
+      line-height: 1;
+    }
+
+    .price span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, .86);
+      font-weight: 700;
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 22px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 280px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255, 60, 0, .12), transparent 34%),
+        linear-gradient(180deg, #1b1b1b, #111111);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+      position: relative;
+      overflow: hidden;
+      animation: riseIn .7s ease both;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: .08s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: .16s;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .10), transparent 68%);
+      transform: translateX(-100%);
+      transition: transform .55s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 92, 0, .72);
+      box-shadow: 0 24px 54px rgba(255, 60, 0, .13);
+    }
+
+    .card:hover::before {
+      transform: translateX(100%);
+    }
+
+    .card h3 {
+      color: var(--brand-2);
+      font-size: 22px;
+    }
+
+    .card h2 {
+      font-size: 34px;
+    }
+
+    .card h2 small {
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .features {
+      display: grid;
+      gap: 10px;
+      color: #dddddd;
+    }
+
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(170px, 1fr));
+      gap: 18px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scrollbar-color: var(--brand) #222;
+    }
+
+    .filme {
+      min-height: 240px;
+      display: flex;
+      align-items: end;
+      padding: 18px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .08) 0%, rgba(0, 0, 0, .86) 100%),
+        var(--tile-img),
+        linear-gradient(135deg, var(--tile-a, #ff3c00), var(--tile-b, #151515));
+      background-size: cover, cover, cover;
+      background-position: center, center, center;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transition: transform .25s ease, border-color .25s ease, filter .25s ease;
+    }
+
+    .filme::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, transparent 15%, rgba(0, 0, 0, .86) 100%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .13) 0 2px, transparent 2px 24px);
+      opacity: .42;
+      z-index: -1;
+    }
+
+    .filme::after {
+      content: "";
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      height: 48px;
+      border-top: 8px dotted rgba(255, 255, 255, .28);
+      border-bottom: 8px dotted rgba(255, 255, 255, .18);
+      opacity: .48;
+    }
+
+    .filme strong {
+      font-size: 20px;
+      transform: translateY(0);
+      transition: transform .25s ease;
+    }
+
+    .filme:hover {
+      transform: translateY(-8px) scale(1.03);
+      border-color: rgba(255, 138, 0, .78);
+      filter: saturate(1.12);
+    }
+
+    .filme:hover strong {
+      transform: translateY(-4px);
+    }
+
+    .filme:nth-child(1) {
+      --tile-img: url("imagens/catalogo-filmes.jpg");
+      --tile-a: #ff3c00;
+      --tile-b: #2b0d05;
+    }
+
+    .filme:nth-child(2) {
+      --tile-img: url("imagens/catalogo-series.jpg");
+      --tile-a: #00c2ff;
+      --tile-b: #10192f;
+    }
+
+    .filme:nth-child(3) {
+      --tile-img: url("imagens/catalogo-infantil.jpg");
+      --tile-a: #ff3cab;
+      --tile-b: #24101f;
+    }
+
+    .filme:nth-child(4) {
+      --tile-img: url("imagens/catalogo-canais.jpg");
+      --tile-a: #ffc247;
+      --tile-b: #2a1c07;
+    }
+
+    .filme:nth-child(5) {
+      --tile-img: url("imagens/catalogo-esportes.jpg");
+      --tile-a: #46ff8a;
+      --tile-b: #0b2113;
+    }
+
+    .filme:nth-child(6) {
+      --tile-img: url("imagens/catalogo-lancamentos.jpg");
+      --tile-a: #8c5cff;
+      --tile-b: #171128;
+    }
+
+    .depoimentos {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .depo {
+      min-height: 170px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      transition: transform .25s ease, border-color .25s ease;
+      animation: riseIn .7s ease both;
+    }
+
+    .depo:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 138, 0, .55);
+    }
+
+    .stars {
+      color: #ffc247;
+      margin-bottom: 14px;
+      letter-spacing: 0;
+    }
+
+    .depo p {
+      color: #e4e4e4;
+      font-size: 17px;
+    }
+
+    .cta {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: #111111;
+    }
+
+    .cta p {
+      color: var(--muted);
+      max-width: 680px;
+      margin-top: 8px;
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 44px 8%;
+      background: #0f0f0f;
+      color: #dddddd;
+    }
+
+    footer h2 {
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    footer p + p {
+      margin-top: 8px;
+    }
+
+    .whatsapp {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 30;
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--green);
+      color: white;
+      text-decoration: none;
+      font-size: 27px;
+      box-shadow: 0 16px 36px rgba(37, 211, 102, .32);
+      animation: whatsappPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateX(28px) scale(.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    @keyframes glowShift {
+      from {
+        transform: translateX(-5%) scale(.95);
+      }
+      to {
+        transform: translateX(6%) scale(1.08);
+      }
+    }
+
+    @keyframes pulseBadge {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    @keyframes buttonShine {
+      0%, 45% {
+        left: -75%;
+      }
+      70%, 100% {
+        left: 125%;
+      }
+    }
+
+    @keyframes posterFloat {
+      0%, 100% {
+        margin-top: 0;
+      }
+      50% {
+        margin-top: -14px;
+      }
+    }
+
+    @keyframes chipPop {
+      from {
+        opacity: 0;
+        transform: scale(.88) translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes whatsappPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 16px 36px rgba(37, 211, 102, .32);
+      }
+      50% {
+        transform: scale(1.08);
+        box-shadow: 0 18px 46px rgba(37, 211, 102, .52);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-showcase {
+        min-height: 360px;
+        max-width: 620px;
+      }
+
+      .plans,
+      .depoimentos,
+      footer {
+        grid-template-columns: 1fr;
+      }
+
+      .promo,
+      .cta {
+        grid-template-columns: 1fr;
+      }
+
+      .price {
+        justify-self: start;
+        text-align: left;
+      }
+
+      .catalogo {
+        grid-template-columns: repeat(6, 220px);
+      }
+    }
+
+    @media (max-width: 720px) {
+      header {
+        padding: 14px 5%;
+      }
+
+      .menu {
+        display: none;
+      }
+
+      .hero {
+        min-height: 86vh;
+        padding: 42px 5% 34px;
+        background:
+          linear-gradient(180deg, rgba(0, 0, 0, .70), rgba(0, 0, 0, .95)),
+          url("imagens/capa.jpg"),
+          linear-gradient(130deg, rgba(255, 60, 0, .24), transparent 42%),
+          linear-gradient(235deg, rgba(0, 194, 255, .16), transparent 44%),
+          repeating-linear-gradient(90deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 62px),
+          #080808;
+        background-size: cover, cover, cover, cover, auto, auto;
+        background-position: center, center, center, center, center, center;
+      }
+
+      .hero-showcase {
+        min-height: 300px;
+      }
+
+      .poster {
+        width: 46%;
+        min-height: 230px;
+      }
+
+      .poster strong {
+        font-size: 17px;
+      }
+
+      .poster span,
+      .live-chip {
+        font-size: 12px;
+      }
+
+      .live-chip {
+        right: 4px;
+        bottom: 14px;
+      }
+
+      section,
+      footer {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 10px;
+      }
+
+      .actions .btn,
+      .cta .btn {
+        width: 100%;
+      }
+
+      .promo {
+        padding: 26px;
+      }
+
+      .card {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" aria-label="Pipoca Play">
+      <span>🍿</span>
+      <strong>Pipoca</strong>
+      <span>Play</span>
+    </div>
+
+    <nav class="menu" aria-label="Menu principal">
+      <a href="#planos">Planos</a>
+      <a href="#catalogo">Catalogo</a>
+      <a href="#avaliacoes">Avaliacoes</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Promoção por tempo limitado</div>
+        <h1>Filmes, series e canais em um so lugar</h1>
+        <p>Conteudos para assistir na TV, celular, computador ou TV Box, com ativacao simples e atendimento direto pelo WhatsApp.</p>
+
+        <div class="actions">
+          <a class="btn" href="https://wa.me/5543996208024?text=Oi%2C%20quero%20assinar%20a%20Pipoca%20Play" target="_blank" rel="noopener">Assinar agora</a>
+          <a class="btn secondary" href="#planos">Ver planos</a>
+        </div>
+      </div>
+
+      <div class="hero-showcase" aria-hidden="true">
+        <div class="poster one">
+          <strong>Filmes recentes</strong>
+          <span>Acao, comedia, drama e lancamentos</span>
+        </div>
+
+        <div class="poster two">
+          <strong>Series completas</strong>
+          <span>Para maratonar quando quiser</span>
+        </div>
+
+        <div class="poster three">
+          <strong>Esportes ao vivo</strong>
+          <span>Canais para acompanhar os jogos</span>
+        </div>
+
+        <div class="live-chip"><b>● Online</b> suporte pelo WhatsApp</div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Destaques da Pipoca Play">
+      <div class="ticker-track">
+        <span>Filmes</span>
+        <span>Series</span>
+        <span>Canais ao vivo</span>
+        <span>Esportes</span>
+        <span>Infantil</span>
+        <span>Lancamentos</span>
+        <span>Suporte rapido</span>
+        <span>Pix</span>
+        <span>Filmes</span>
+        <span>Series</span>
+        <span>Canais ao vivo</span>
+        <span>Esportes</span>
+        <span>Infantil</span>
+        <span>Lancamentos</span>
+        <span>Suporte rapido</span>
+        <span>Pix</span>
+      </div>
+    </section>
+
+    <section id="planos">
+      <div class="section-head">
+        <h2 class="title">Promoção Pipoca Play</h2>
+        <p>Oferta especial para os primeiros assinantes, ideal para testar o servico e aproveitar o catalogo completo.</p>
+      </div>
+
+      <div class="promo">
+        <div>
+          <h3>Os 5 primeiros assinantes pagam menos</h3>
+          <p>Plano individual com filmes, series, canais ao vivo e suporte rapido para configurar seu acesso.</p>
+        </div>
+
+        <div class="price">
+          <strong>R$19,90</strong>
+          <span>por 2 meses</span>
+        </div>
+      </div>
+
+      <div class="plans">
+        <article class="card">
+          <div>
+            <h3>Plano Individual</h3>
+            <h2>R$22 <small>/mes</small></h2>
+          </div>
+          <div class="features">
+            <p>✓ 1 tela</p>
+            <p>✓ Filmes e series recentes</p>
+            <p>✓ Canais ao vivo</p>
+            <p>✓ Suporte rapido</p>
+          </div>
+          <a class="btn" href="https://wa.me/5543996208024?text=Oi%2C%20quero%20o%20Plano%20Individual%20da%20Pipoca%20Play" target="_blank" rel="noopener">Quero esse plano</a>
+        </article>
+
+        <article class="card">
+          <div>
+            <h3>Instalacao simples</h3>
+            <h2>Rapido <small>e direto</small></h2>
+          </div>
+          <div class="features">
+            <p>✓ Orientacao pelo WhatsApp</p>
+            <p>✓ Ajuda para TV e celular</p>
+            <p>✓ Pagamento via Pix</p>
+            <p>✓ Atendimento sem complicacao</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div>
+            <h3>Conteudo variado</h3>
+            <h2>Tudo <small>em um app</small></h2>
+          </div>
+          <div class="features">
+            <p>✓ Filmes</p>
+            <p>✓ Series</p>
+            <p>✓ Esportes</p>
+            <p>✓ Canais de entretenimento</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="catalogo">
+      <div class="section-head">
+        <h2 class="title">Catalogo</h2>
+        <p>Uma selecao variada para quem quer assistir filmes, series, esportes e canais ao vivo no mesmo lugar.</p>
+      </div>
+
+      <div class="catalogo" aria-label="Categorias do catalogo">
+        <div class="filme"><strong>Filmes</strong></div>
+        <div class="filme"><strong>Series</strong></div>
+        <div class="filme"><strong>Infantil</strong></div>
+        <div class="filme"><strong>Canais</strong></div>
+        <div class="filme"><strong>Esportes</strong></div>
+        <div class="filme"><strong>Lancamentos</strong></div>
+      </div>
+    </section>
+
+    <section id="avaliacoes">
+      <div class="section-head">
+        <h2 class="title">Avaliacoes</h2>
+        <p>Comentarios de clientes que ja usam a Pipoca Play no dia a dia.</p>
+      </div>
+
+      <div class="depoimentos">
+        <article class="depo">
+          <div class="stars">★★★★★</div>
+          <p>"Muito facil de usar e roda sem travar. Gostei bastante do atendimento."</p>
+        </article>
+
+        <article class="depo">
+          <div class="stars">★★★★★</div>
+          <p>"Instalei na TV rapidinho. Me ajudaram pelo WhatsApp e ficou tudo certo."</p>
+        </article>
+
+        <article class="depo">
+          <div class="stars">★★★★★</div>
+          <p>"Tem bastante conteudo atualizado e o plano vale muito a pena."</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div>
+        <h2 class="title">Quer ativar seu acesso?</h2>
+        <p>Chame no WhatsApp para confirmar a promoção, tirar duvidas e receber as instrucoes de pagamento via Pix.</p>
+      </div>
+      <a class="btn" href="https://wa.me/5543996208024?text=Oi%2C%20quero%20ativar%20meu%20acesso%20na%20Pipoca%20Play" target="_blank" rel="noopener">Falar no WhatsApp</a>
+    </section>
+  </main>
+
+  <footer id="contato">
+    <div>
+      <h2>🍿 Pipoca Play</h2>
+      <p>Filmes, series e canais em um so lugar.</p>
+    </div>
+
+    <div>
+      <p>Instagram: @pipocaplay_0</p>
+      <p>Pagamento via Pix: solicitar no WhatsApp</p>
+      <p>WhatsApp: (43) 99620-8024</p>
+    </div>
+  </footer>
+
+  <a class="whatsapp" href="https://wa.me/5543996208024?text=Oi%2C%20quero%20saber%20mais%20sobre%20a%20Pipoca%20Play" target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">☎</a>
+</body>
+</html>

@@ -1,0 +1,15 @@
+Coloque suas imagens nesta pasta com estes nomes:
+
+capa.jpg
+poster-filmes.jpg
+poster-series.jpg
+poster-esportes.jpg
+catalogo-filmes.jpg
+catalogo-series.jpg
+catalogo-infantil.jpg
+catalogo-canais.jpg
+catalogo-esportes.jpg
+catalogo-lancamentos.jpg
+
+Dica: use imagens em JPG. Para a capa, prefira uma imagem horizontal.
+Para os posters e catalogo, imagens verticais ou quadradas funcionam bem.
